@@ -7,48 +7,50 @@
 ### 1. Описание функциональности монолитного приложения
 
 **Управление отоплением:**
-
-- Пользователи могут…
-- Система поддерживает…
-- …
+- Пользователи могут удалённо включать/выключать отопление в своих домах через веб-приложение.
+- Система поддерживает получение текущего состояния отопления (включено/выключено).
 
 **Мониторинг температуры:**
-
-- Пользователи могут…
-- Система поддерживает…
-- …
+- Система получает данные о температуре с датчиков, установленных в домах.
+- Пользователи могут просматривать текущую температуру в своих домах через веб-интерфейс.
 
 ### 2. Анализ архитектуры монолитного приложения
 
-Перечислите здесь основные особенности текущего приложения: какой язык программирования используется, какая база данных, как организовано взаимодействие между компонентами и так далее.
+- **Язык программирования:** Java.
+- **База данных:** PostgreSQL.
+- **Архитектура:** Монолитная, все компоненты системы (обработка запросов, бизнес-логика, работа с данными) находятся в рамках одного приложения.
+- **Взаимодействие:** Синхронное, запросы обрабатываются последовательно.
+- **Масштабируемость:** Ограничена, так как монолит сложно масштабировать по частям.
+- **Развёртывание:** Требует остановки всего приложения при обновлениях.
 
 ### 3. Определение доменов и границы контекстов
 
-Опишите здесь домены, которые вы выделили.
+#### Домен 1: Управление устройствами
+- Управление отоплением.
+
+#### Домен 2: Мониторинг и телеметрия
+- Сбор данных с датчиков (температура, состояние устройств).
+- Отображение данных в реальном времени.
+
+#### Домен 3: Пользователи и управление доступом
+- Регистрация и авторизация пользователей.
 
 ### **4. Проблемы монолитного решения**
 
-- …
-- …
-- …
-
-Если вы считаете, что текущее решение не вызывает проблем, аргументируйте свою позицию.
+1. **Отсутствие масштабируемости:**
+   - Система не поддерживает горизонтальное масштабирование отдельных компонентов.
+2. **Невозможность самостоятельного подключения устройств:**
+   - Все действия по настройке требуют выезда специалиста.
+3. **Сложности с добавлением нового функционала:**
+   - Изменения требуют вмешательства в монолит, что увеличивает риск ошибок.
+4. **Задержки в обработке запросов:**
+   - Синхронная обработка ограничивает производительность системы.
+5. **Низкая гибкость:**
+   - Интеграция с устройствами партнёров требует значительных доработок.
 
 ### 5. Визуализация контекста системы — диаграмма С4
 
-Добавьте сюда диаграмму контекста в модели C4.
-
-Чтобы добавить ссылку в файл Readme.md, нужно использовать синтаксис Markdown. Это делают так:
-
-```markdown
-[Текст ссылки](URL)
-```
-
-Замените `Текст ссылки` текстом, который хотите использовать для ссылки. Вместо `URL` вставьте адрес, на который должна вести ссылка. Например:
-
-```markdown
-[Посетите Яндекс](https://ya.ru/)
-```
+[Диаграмм контекста в модели C4 - Текущее монолитное решение](https://editor.plantuml.com/uml/ZPBBIlD05CVtUOengmhQ8BXovHL45AhLTHdJeGRIIKWcNX2XjOWBFt3_8Rhm1UgbM6qJN-7C6_cVrDPBkp2Rp9pC-PtVEPF5MF589NNVclAawoTLmGwK2kC5nuduKR7cgODaFub5v0PI2QcARb1tGfzBapCRgwhlxJihyxCb4zhRsdJgF5OYGgYoWWpkIH4LGyEtIYAA0rami1bcqnrbrDF_w0NlHshhS-gOlJrjbK-0g5VMZbLXNN3boTggEFHSCMVIRd4metVg3XCerLVqokXTDwXB3vJf1XX3o7AGo2gFJWhkN8M7eI7SKt-OymnKtvvcfnR3Cn8k34ukXQ7lkH08f8tj1Z_aCwmKnAeMYVBsfZs0cRfjTD23JWg33jCjtTJd26VqQbQcFTJiChXDaDSNF-JDE12OE9rhT7PcMJl2_npZgALnYr6nKGYjul3wxcwf3CuOv0QdqrmjosrIUc9vtJuW7SD7KotTq5U_CJbW_Ah-c-d2AiMSsmnoRzHpw16ZnsBC3ytz3JluSLhwyclWJS2QkVZr03LH79yoUgBCtBi9NIBvZThVoouAMSNF-W40)
 
 # Задание 2. Проектирование микросервисной архитектуры
 
@@ -56,16 +58,27 @@
 
 **Диаграмма контейнеров (Containers)**
 
-Добавьте диаграмму.
+[Диаграмма контейнеров приложения "Умный дом"](https://editor.plantuml.com/uml/nLZDRjj64BxpARP43p9WIqtHKu42iMoZRkkqYkMSZPMubTH8f42kx1f10KbkcWGfcg8eqA076qKElSgE5Skn9B_2xXjrPYcHN9AIumIg3HZQlvdluypip91tFKvTtchK3UEZcbskjon6gfmtlSzpEPVkPoirNcsLMXvpouxDcSspPQUHQzQfZK8h7hVgjL9kxREL0YuzkBULQr2FCnUMTjT0WjPivcQR2i0mLYrheyuQe6Q7LZAcHJajKO-PP2c-nVPWj0B0vf9X59ZhENO6MImJKnoBiRYKlufp-3qLFTaLVPoRkFTANCcswC7wfNmX-h9BvA7io2uiZiK5Zb143CM0o2UmtmRPSwA41k8Ipho1XH6C-m0SFC3kneyyOx6zMfbvC4IWF-1KNpxrpwQ2cCkcE8BXM5o1vedMPIB6iWFRVVaiidOAgo0Cftl-OoJL0GRG7i7IQp4cuWm6GpWTOPdPPwNLPjDdrnSdAwcF1TlRZ9QvmdafHcW-sPO_mm70GiLWEGGB3EcBgiLqKwAFZE81-BsnctTQjaNTWqpvKm0eDY2woEPt3MOkaKU460J-GiAqMVkIShPF3-3iQk4hCfaXjsySkw8u7gk7GFBmlCgbu3mS0-kdy7y8H0OG30CS-_ldSF1A6RGZdwF5ksZYT9F85q0_Hgl5gqNcehkH5yp8P8g4ldKiblt1Kzn-5wVeOQKJGEKloax8hwTuzPLz1s3TWNWRxb-bHJ0w09H-p6d5-yBSkvFz944CRq18x07CPX5x5NSV12cujWV3aNokul-zMLGPvJMx4XBPz1UYNBwcUtGsaN7yMeWX6crcVCtdKwzLgZnaiuNJ6zabSIC_Y8xbE14dhSFiHcGYgS1tqtiJuGmJAdSFGZOxqwLPbFuH9uYlK1yhSgEK-96FIH0jGxnowWBeVEua-7XbPbEtveHqYfELsMp649q-h68mI4bCc7uxSBDmqaCYaFY7gLQRp-z-YxLOvY7z_Y75z8E_P0FB4Cct59tL9YrN6L4xYjuH66k8k400K4x0CDq0Nksy4MVo47Unqfp2NYVkkMYXq-YibwONRJsFSGIrCe-r4iO5n-CLbnNlRoaQVmRNkX-aRxGGUh8B-K-73w63yfj4LbVg5d3nxjm2R71J4jZte0evw_b50MD2luNddTx4HJ_kJuQnpUgJnYtiJbw2G51y_9gDY9ixEuKYIA78zB3M8QXsAjxVwSK-gWSLxMvfJOPUsLLhCLQflutbcQ3YU3rNbzMiR1VM9jGq7Nf5JYfChR7GSiHKHYZ6DARMY1bQ9vbbbkPa_lsW13i7AT4XYB_zTXKqd657veTJl0-OQvTObP-fKIlbSpNgXNg6mg0Spr6KKcZ5Ns5KlbFXdEfMokFsqryzZWB5oHANKu6hYb8OBczXVwHwqDSWqPx4zKNypkaM_dymDHyi7jB7ZC3e-IMQyj9VwMBi5wtfPefIOoVQH8X__NSIj5VEJvoOlU7TEIq2mYRWEZdTYzCQVfrKyjheTVWwUIrJ1fNqEgb45jIAuJpfTF5fmmYvz6ZQ0leLinzuIRtqJL-iupvKwJoUON-Ri8rxCq0xXZnz0daa-buPxKB51V4_4qGoJx8XJdFxGY2q25a8maHfMYx63qPdlYFzgZp2pobQo_uE8CPTPblu8Ui_)
 
 **Диаграмма компонентов (Components)**
+
+[Диаграмма компонентов контейнера "Управление отоплением"](https://editor.plantuml.com/uml/XLJBQjj05DthAwPU9T34cwwwIcANfe-0IT9r6KjJMrGlf552A0K_w0DSy0-Kfj15jqg8gHhRoY_S-QFUEr9KMtAfGDBepCmzzvnxHtkHvA6CNSTuO7kc4rk2zQKCeiVDPiZFTtksxCVTE1AXwNjIU7BNzDrcu72Fzkn4qdBiRhFrQAT3qAkZbqsNHrA42Brk-MxWUxGdeFX62oDmsnFXLbzmQNkz4n6UsQPuo1g7ES0Af87GStx6wGq_u4uD885hcCCCbf32Z46cHf31tLy85WnIfiPgg4QuF8FVDC9D2ImWRMopTmR3gynfYmVs8VSiHuH8ijzvnfvoASxv1IjGuZv-SdBAS4xdSObXKqssmA0pDMBm2mUKN8PS4-AdAJLGd_4U8tkAAr8Qq_B6TYK3TD95haxecoAAVCgZbKEinDQS-0PNseahBVyM4eQFJAUpX1iKNtLAJMkabY23ZxZ7UrfvMt-p0lYlyMgenQBvQbeQNtUzHYk58rmXmujEt7NigA-vJ-z1Lg94_8A_USl90YisSmIz7wFgEVBTvcRgHD2E2RcifWnVCvtcWcPrfTAwTYvvbqTYt-A1pDKN22iWhRzzqDAatqkh4wHZE4wmdgYHmOssV8dq7zXzxxOFaF2zOHmBPwsvDfGPljRQ954VjP3LYc8y2bOFK2qYNABg0Qh7lDIdQbyWEgV8rsg29oP3cvOhxK4CbNWRYxLQWpBRrIgWB_-eWgQeUb_Jy5FlBivtMXmkP1cgB-k6RsotFU5Pz9Vv0m00)
+
+[Диаграмма компонентов контейнера "Управление освещением"](https://editor.plantuml.com/uml/XLJBQjj05DtxAswzIg29DrrrbSGkVJbWudHTnjBK5jKBQPmGIi4F-WWk-0TAK-YYMoN4L8qV-OKxVzHxnufZMmuLM1gT6TrpxZdZsOkLY5JRSmkF7DzosxQ4bb9X_BHKYiJfRjDHhNQZ7Sl82dmbVRLh1LufT8NFt-p4odQTHgdyPAV6q9l3QiaJiP8HGM_BWHS6FdyJSlr2cIe8nvVHbkiqMwekenF7ae-XMELNoDwB1BmI9uAV-0jlTGSJlC8nZd2AAOu0PxfBm4YVtq4u0Kn1ztLNzsZv3F_oYDOaEC6qk0qV2a3NGi-M29qNmhTT6H79VkqbF1TAdeepo53cFdfMFmQQCpekg6ngo2PKTAHxW7zemE98ZHumFq_fZlvAlpwnfxGYvJ4lBswlAI0NFUAgHO4bupXW7UKv10jinOaVU6cSk2J27jvW0dIR6JbJlARcrvtImnofiTtnctL5xHuANpID0TKC1eD3Dl7V72Y5cV5vfeVtEQo5iq65agxqf8hEQks6wyGje-7u3eG5oiIlnRltWXsnszOSeIZwPCAO-6xctXeXvCw0JTT3eCV8o9pmh0akpOcmXH8D4SjzMuJAAAXa26IGwRzoK3QaFnVE9qG7D4ueNjfeWDScWIdHVuBvHguS4Dt7Gk58kYixRKFc-3stPnBzsRIn72_LusBv0WyaYXVKUeSi877wo_fU8NJC15TwWBU4Zmcz3uk9DfVT6Dno7WljoucGHmyamaov71xgwBSfafq0QVRt8xAk_hQQGVuO8AezwTjy1lq3)
+
+[Диаграмма компонентов контейнера "Управление воротами"](https://editor.plantuml.com/uml/fLJBRjD05DtxAuQiMedM6rQisYQ8jnIrPOqcza0i_98zRbKXf3p4Gqgb_W2Y81PiawXHNVBwXPa_ujof6v8uhB3yc3aplkUUSw-zbqgUo2pmhNjUwFYPArXJoZXzQDi9FzrzwybcriXIaJXHA4KeTvqei6EVX_JEJYfTtslOrGSxTO9UlNnX1poL8W7qkXe5SHJIEp75jwg8mBrG95jk52L78Zdn776VLMgOiM9QmVmPF-7qL3_LNBTKNmtLM8tKLELgn32P0Ppf3XOcAcSuTLUtTOTGTKCZx35hbMtstc8u5fbiyTXxmaFN5ma8zkjFsMCknIa_OmLAl8UFZeuPramEbmYR6-u9WevqXwbh3EOcXxRk4JyjwPR-WgiBzXmxSXhJzihsMWRmBm1NFOaSaQOHvL6zXTW2Mt7XcneO5mP6z6_LPxZDJ3fJTGNnwoxfYnAfAyXSuib2p-7IqDOCo9RH5U8VQgWlrBK-PxhzJu-N2b9YbS8NWP39MJrh-5xQDAOVtu5iWHBRS_xc7IS7tCovHM1z5wB7y1EYzISIXaoGm43tZCqt38-HaJqXhqsfyh9uBdc3fsBVvR4qETGAX1MGaLqxg1hQxmkl-oGSupuA2jbCNHdFfw3_o4pNrWx0zi6o3eM_qbeRYgo-bfhaJjHoFH6FWfK3R2oXkeJk5lGZC_rvlJM0ZYdyKFVK7FWOwDyE8PfDGJTMxJ-AONZMIx1PpIyJelZGy-9B0rKRFRXYVhaRGRGdGfT-D7y0)
+
+[Диаграмма компонентов контейнера "Сбор и хранение данных телеметрии"](https://editor.plantuml.com/uml/dLFDRjD06BpdAPQSYaJh2oTEJUCU4AqKjUMCDl7YMDXhoru7LGWfZLGuW80tA9oukZzMJKFDAtpxHinkdQHDWrHXoTQtOt_VpCwiDpF5KvL7OUjH80TXxWasL2h9dZbEojzk-84Qvlqy4-aWbaf8jJ688oS9kJGzwvdomg3lT9-kzmpqSdV7YNYcH0heLJUEabYQdiJCRtKnWGTIf6jAX28IAZtS5-ae68Wdh7qmWrY3jG7s3jKmbgQY7tHAjHupgfW-rcCgw9fAt1MLZ2xiybf_qiTCJu1FSV-cKa_mPKLL-p5xrsAuvfBMn0ZFdG1Q8GW4ssRDPe2XVC5Vl-7ea5aUtI1qGZMu_b2bZ-YA2WRIWg6kwHJS4-1V_y6_n3uteEFxgV2vYjCx7YpW9Hk-qJb6bdHEXVvW-M08PC0Q41OWhkXoyUwMCVSqU5pnJX9WgekATNhF3SFUzlx1hAOJotM1wKVOLa5dTcCFD9t1g9gc-ZC4rMWjRZxINrOgwVDCT3oUA9k6so2iWOoQtLZwiRl5t3GODNbyXmHpB2Os1eQwi6I_xgfR-EfkWVnzgxKdmkKJi3eIH5us9XJweudyzc0ifiPca_zuhkNA1cueLiwylriSxlf_3hNbcCUuOkvFs_VmUPj2UkPN_Gi0)
+
+[Диаграмма компонентов контейнера "Создание и управление сценариями устройств"](https://editor.plantuml.com/uml/bLJBRjD05DtdAuQiMeac6rQiMf9880eA3QpHn1uIWsDRut5O8AGyn4DAfIvPi2Y81LidD29j7ls5Et_4lMCt1DiB6YdM-FZEFMVEFVPXgBXKKSyjtN4yourimRfA1U7zQbNojvMEexfHEmg5j7nF2KzLBBzN3LpkqPw3KDckqwxMxXqq2NhnvBZQuw4I4g6NDRyN-1xj2QX_gOOTkEC9kHTQmkFIyLj2zXrBt6NbLegm52eZzjItHULrI4lu3Xlu3HSGmneMC6UmO7eCrtg0o0oMC4znFTGVpKsCZnRw35Qc4k4H0Xkuf1NColliNOdXRwjnZmVEG-xPhf38TzHynD8xeZzfj9upn8oKS-fiw5P8FjSZXifYesM3tIUaZHxfWVwC_p7oBR1YGMigB-zdc6_SQ7WTT6VNZ0J9Ul4Lp_4BUrv1p62c9t2Dm18L6HFqMSO4NCqAEBl2ZfB3jcxMMQ8V1GRd2V6wAg1aL4Nb0of8IdCoH1-lpQZjEc7NQ6aGmBO8oNZCNxtXh2bzEx8I14SmXYagC1uWSN9e53NL4sFt9SEiB14jz0TtRSpmrd1H68wCIfihtkQXEB9ve8pCUegm529LJJzK7IbQpuvPNJhzLEetf9bYC4OuB3rak8un39j48IbOe-GFR3lo-WEaVrygdGZtdqZcGWBd62Ro5jleJnI5tNw54Q2UsJwxGO0l9iTe25pT8bb9sssRt4nlCQx2OL3_t0ZoVlp4yldVpqFoKYBNK9_-XpU7mhFfA_K7)
 
 Добавьте диаграмму для каждого из выделенных микросервисов.
 
 **Диаграмма кода (Code)**
 
-Добавьте одну диаграмму или несколько.
+[Диаграмма кода контейнера "Создание и управление сценариями устройств"](https://editor.plantuml.com/uml/XL9HQuCm47xtLmIVkguMzYgbj4pREfoEgiyIuj45D4eIXsFilo-QrDbDQ5vozztb-xuSjnCISzbMfKLAB0HA233CQOs-BAJE8orSb6M1fpE6At1H8Zbb5urW8cdDX8j2AkHcFsHRNHBa7Ogsx1-OIEFG0MabB1vSz57JmlgsZBP-FQyiFnj5f3jI5MkqmLmvai2LWLVSRBIpbN6ulQDtjJMlI7ZD_AxX88JIlFqrWqxw0wqgzSGUbf3I2gRaUf0-kr0sIl2MNGiBOOB0o5xztGplNxSxCj_q4ym8b7UvbJrWRJKPf76MPkSeZwCy38wdT3M13eSfjlTUiYJDJ_u-3QAZnk8tFygzE3xhz3cC4t_8UxLnd-md6oqTHzthzT8s1kRAzk-w_9cXusp7prixO4M_jZy0)
+
 
 # Задание 3. Разработка ER-диаграммы
 
-Добавьте сюда ER-диаграмму. Она должна отражать ключевые сущности системы, их атрибуты и тип связей между ними.
+[ER-диаграмма. Содержит ключевые сущности системы, их атрибуты и тип связей между ними](https://editor.plantuml.com/uml/bL5BJiCm4Dtt55QMIBq0AnO1mG8sRTRLa8p0aZ-LCocgMYHQbXo32rIeXGf4kO9p8-ma0YTamoAH_6RUnyydEO6XGee1Ak8qPr6IeudOOi3O4UCPEsP9SX5N9mKItNb4XgkR2a49NBGXeqMmT3_uqHsbgC1m7VCPf9ZtMsGuuobEsY2anBMQq7pgbK-laiiGpiY1CH2EkSJGy5mNEVRRG9OPpFDsSdsdq0JMWLHSnUhNQc85Ggv03cAY2dcDfZCYeABZU-jpzlkEKQ14CdDtF_X7O-IgS5Po6bRZ1pCGXKzx9ZIGT_AlpPRBuL0lM5MO6qRsnNxOZTtQdTsLwwYrr7d6QlsvN9LhH_XqdwVktNzJKslDXblNw2dboXwyVlbWN-tUBtPr_r8UxRjJVIkVVjMRQRFRQgiAzcKFpk7WFBODvHi0)
